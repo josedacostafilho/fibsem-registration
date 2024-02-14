@@ -5,7 +5,11 @@ from tkinter import ttk, filedialog
 
 from utils import *
 
+<<<<<<< HEAD
 INITIAL_DIR = "/nfs/data1expansion/FIBSEM_datasync3"
+=======
+INITIAL_DIR = "/nfs/data1expansion/FIBSEM_datasync3/"
+>>>>>>> 02ed6e757458d70be9424af65e538c694eaefe2d
 FRAME_PAD = 5
 FRAME_RELIEF = tk.RAISED
 FRAME_BORDERWIDTH = 1
@@ -330,7 +334,11 @@ if params["task"]=="preprocessing":
             invert_data(filelist, save_path)
 
         total_time = time()-start_time
+<<<<<<< HEAD
         print(f'Exp #{i+1} finished in {total_time:.2f}s')
+=======
+        print(f"Exp #{i+1} finished in {total_time:.2f}s")
+>>>>>>> 02ed6e757458d70be9424af65e538c694eaefe2d
 
 if params["task"]=="registration":
     print("Registering data...")
@@ -349,7 +357,14 @@ if params["task"]=="registration":
         register_frames(filelist, translation, save_path)
 
         total_time = time()-start_time
+<<<<<<< HEAD
         print(f'Exp #{i+1} finished in {total_time:.2f}s')
 
 code_time = time()-start
 print(f'Code finished in {total_time:.2f}s')
+=======
+        print(f"Exp #{i+1} finished in {total_time:.2f}s")
+
+code_time = time()-start
+print(f"Code finished in {total_time:.2f}s")
+>>>>>>> 02ed6e757458d70be9424af65e538c694eaefe2d

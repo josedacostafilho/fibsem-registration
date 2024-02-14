@@ -1,6 +1,10 @@
 import os, glob
 import tifffile
 import numpy as np
+<<<<<<< HEAD
+=======
+import matplotlib.pyplot as plt
+>>>>>>> 02ed6e757458d70be9424af65e538c694eaefe2d
 from time import time
 from scipy.ndimage import shift, gaussian_filter
 from skimage.registration import phase_cross_correlation
@@ -8,8 +12,11 @@ from skimage.registration import phase_cross_correlation
 from joblib import Parallel, delayed
 from multiprocessing import cpu_count
 
+<<<<<<< HEAD
 CPU_COUNT = cpu_count()
 
+=======
+>>>>>>> 02ed6e757458d70be9424af65e538c694eaefe2d
 def make_dir(path):
     if not os.path.exists(path):
         os.makedirs(path)
@@ -20,6 +27,7 @@ def make_filelist(path, crop_start=0, crop_end=None):
 def get_bounds(filelist, padding):
     frame_shape = tifffile.imread(filelist[0]).shape
 
+<<<<<<< HEAD
     is_mask_zero = True
     test_frame = tifffile.imread(filelist[0])
     mask = (test_frame>0).astype('int')
@@ -35,6 +43,14 @@ def get_bounds(filelist, padding):
         return [indices[0].min(), indices[0].max(), indices[1].min(), indices[1].max()]
 
     n_jobs = np.minimum(CPU_COUNT,len(filelist))
+=======
+    def loop(file):
+        frame = tifffile.imread(file)
+        indices = np.where(frame>0)
+        return [indices[0].min(), indices[0].max(), indices[1].min(), indices[1].max()]
+
+    n_jobs = np.minimum(cpu_count(),len(filelist))
+>>>>>>> 02ed6e757458d70be9424af65e538c694eaefe2d
     results = Parallel(n_jobs=n_jobs)(delayed(loop)(file) for file in filelist)
     results = np.asarray(results)
     
@@ -49,7 +65,11 @@ def get_means(filelist, means_smoothing):
         mean = np.sum(frame)/np.sum(frame>0)
         return mean
 
+<<<<<<< HEAD
     n_jobs = np.minimum(CPU_COUNT,len(filelist))
+=======
+    n_jobs = np.minimum(cpu_count(),len(filelist))
+>>>>>>> 02ed6e757458d70be9424af65e538c694eaefe2d
     means = Parallel(n_jobs=n_jobs)(delayed(loop)(file) for file in filelist)
     means = np.asarray(means)
     means = gaussian_filter(means, means_smoothing)
@@ -66,7 +86,11 @@ def crop_data(filelist, save_path, padding):
         filename = os.path.split(file)[1]
         tifffile.imwrite(os.path.join(save_path, filename), frame)
 
+<<<<<<< HEAD
     n_jobs = np.minimum(CPU_COUNT,len(filelist))
+=======
+    n_jobs = np.minimum(cpu_count(),len(filelist))
+>>>>>>> 02ed6e757458d70be9424af65e538c694eaefe2d
     _ = Parallel(n_jobs=n_jobs)(delayed(loop)(file) for file in filelist)
 
 def normalize_data(filelist, save_path, means_smoothing):
@@ -84,7 +108,11 @@ def normalize_data(filelist, save_path, means_smoothing):
         filename = os.path.split(file)[1]
         tifffile.imwrite(os.path.join(save_path, filename), frame)
 
+<<<<<<< HEAD
     n_jobs = np.minimum(CPU_COUNT,len(filelist))
+=======
+    n_jobs = np.minimum(cpu_count(),len(filelist))
+>>>>>>> 02ed6e757458d70be9424af65e538c694eaefe2d
     _ = Parallel(n_jobs=n_jobs)(delayed(loop)(file, curr_mean) for file, curr_mean in zip(filelist, means))
 
 def invert_data(filelist, save_path):
@@ -96,7 +124,11 @@ def invert_data(filelist, save_path):
         filename = os.path.split(file)[1]
         tifffile.imwrite(os.path.join(save_path, filename), frame)
 
+<<<<<<< HEAD
     n_jobs = np.minimum(CPU_COUNT,len(filelist))
+=======
+    n_jobs = np.minimum(cpu_count(),len(filelist))
+>>>>>>> 02ed6e757458d70be9424af65e538c694eaefe2d
     _ = Parallel(n_jobs=n_jobs)(delayed(loop)(file) for file in filelist)
 
 def get_range(array):
@@ -163,7 +195,11 @@ def get_translation(filelist, upsample_factor, mask_crop_step):
 
         return translation
 
+<<<<<<< HEAD
     n_jobs = np.minimum(CPU_COUNT,len(filelist)-1)
+=======
+    n_jobs = np.minimum(cpu_count(),len(filelist)-1)
+>>>>>>> 02ed6e757458d70be9424af65e538c694eaefe2d
     results = Parallel(n_jobs=n_jobs)(delayed(loop)(z) for z in range(1,len(filelist)))
     
     dx.extend(results)
@@ -171,6 +207,7 @@ def get_translation(filelist, upsample_factor, mask_crop_step):
 
     return dx
 
+<<<<<<< HEAD
 def pad_from_translation(translation):
     dx_before = np.clip(-translation, 0, None)
     dx_after = np.clip(translation, 0, None)
@@ -193,6 +230,16 @@ def register_frames(filelist, translation, save_path):
         mask = (frame<255)
         mask = shift(mask, np.round(dx), cval=0, order=0)
 
+=======
+def register_frames(filelist, translation, save_path):
+
+    def loop(file, dx):
+        frame = tifffile.imread(file).astype('float')
+        
+        mask = (frame<255)
+        mask = shift(mask, np.round(dx), cval=0, order=0)
+        
+>>>>>>> 02ed6e757458d70be9424af65e538c694eaefe2d
         frame = shift(frame, dx, cval=255)
         frame = frame.astype("uint8")
         frame = frame*mask + 255*(~mask)
@@ -201,7 +248,11 @@ def register_frames(filelist, translation, save_path):
         filename = os.path.split(file)[1]
         tifffile.imwrite(os.path.join(save_path, filename), frame)
 
+<<<<<<< HEAD
     n_jobs = np.minimum(CPU_COUNT,len(filelist))
+=======
+    n_jobs = np.minimum(cpu_count(),len(filelist))
+>>>>>>> 02ed6e757458d70be9424af65e538c694eaefe2d
     _ = Parallel(n_jobs=n_jobs)(delayed(loop)(file, dx) for file, dx in zip(filelist, translation))
 
 def registration(load_path, save_path, upsample_factor, mask_crop_step):
