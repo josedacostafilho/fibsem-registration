@@ -1,8 +1,20 @@
 # fibsem-registration
 
-Software for preprocessing and registration of FIBSEM data.
+Software for preprocessing and registration of FIBSEM data. It can be run as an executable or as a Python script.
 
-## Installation
+## 1. Using executable file
+On a terminal window, navigate to 
+```bash
+fibsem-registration/dist/gui
+```
+and run
+```bash
+./gui
+```
+
+## 2. Python script
+
+### Installation
 #### 1. Open a terminal window
 #### 2. (Optional) Install Miniconda
 If you do not have Miniconda installed, download it via
@@ -23,7 +35,7 @@ git clone https://github.com/josedacostafilho/fibsem-registration ~/your_folder
 conda env create -f environment.yml
 ```
 
-## Usage
+### Usage
 #### 1. Activate the conda environment
 ```bash
 conda activate registration
