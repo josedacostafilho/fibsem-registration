@@ -45,5 +45,5 @@ conda activate registration
 python gui.py
 ```
 #### 3. Follow the GUI instructions
-Note that your data should be organized as a sequence of 2D .tif files inside some folder. The pixel intensities should range from 0 to 255, with 0 corresponding to masked areas.
+Note that your data should be organized as a sequence of 2D .tif files inside some folder, with pixel intensities ranging from 0 to 255. For preprocessing, background areas can be masked with either 0 or 255. For registration, masking is done with 255.
 
